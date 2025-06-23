@@ -1,20 +1,29 @@
 <launch>
 
-    <arg name="project" default="lio_sam"/>
-    
+    <arg name="project" default="lio_sam" />
+
     <!-- Parameters -->
+    <!-- 载入参数文件，供 ParamServer 类使用 -->
     <rosparam file="$(find lio_sam)/config/params.yaml" command="load" />
 
-    <!--- LOAM -->
+    <!---
+    LOAM -->
+    <!-- 启动4个核心节点 featureExtraction, imageProjection, ... -->
     <include file="$(find lio_sam)/launch/include/module_loam.launch" />
 
-    <!--- Robot State TF -->
+    <!---
+    Robot State TF -->
+    <!-- 模型文件载入参数服务器 -->
     <!-- <include file="$(find lio_sam)/launch/include/module_robot_state_publisher.launch" /> -->
 
-    <!--- Run Navsat -->
+    <!---
+    Run Navsat -->
+    <!-- EKF GPS 和 Navsat 节点 -->
     <include file="$(find lio_sam)/launch/include/module_navsat.launch" />
 
-    <!--- Run Rviz-->
+    <!---
+    Run Rviz-->
+    <!-- 根据配置文件 rviz.rviz 启动 Rviz -->
     <include file="$(find lio_sam)/launch/include/module_rviz.launch" />
 
 </launch>

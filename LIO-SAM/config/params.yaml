@@ -1,15 +1,23 @@
 lio_sam:
 
   # Topics
+  # LIO-SAM 订阅此话题，获取原始点云数据
   pointCloudTopic: "/velodyne_points"               # Point cloud data
+  # LIO-SAM 订阅此话题，获取原始 IMU 数据
   imuTopic: "/imu/data"                         # IMU data
+  # LIO-SAM 使用此话题发布 IMU 预积分后的里程计数据，频率与 IMU 数据相同
   odomTopic: "odometry/imu"                   # IMU pre-preintegration odometry, same frequency as IMU
+  # 如果使用 GPS 数据，LIO-SAM 会订阅此话题获取 GPS 里程计数据
   gpsTopic: "odometry/gpsz"                   # GPS odometry topic from navsat, see module_navsat.launch file
 
   # Frames
+  # 激光雷达数据的坐标系
   lidarFrame: "base_link_est"
+  # 机器人底座的坐标系
   baselinkFrame: "base_link_est"
+  # 里程计数据的坐标系
   odometryFrame: "odom_est"
+  # 地图数据的坐标系
   mapFrame: "map"
 
   # GPS Settings
@@ -17,10 +25,10 @@ lio_sam:
   useGpsElevation: false                      # if GPS elevation is bad, set to "false"
   gpsCovThreshold: 2.0                        # m^2, threshold for using GPS data
   poseCovThreshold: 25.0                      # m^2, threshold for using GPS data
-  
+
   # Export settings
-  savePCD: true                              # https://github.com/TixiaoShan/LIO-SAM/issues/3
-  savePCDDirectory: "/Downloads/"        # in your home folder, starts and ends with "/". Warning: the code deletes "LOAM" folder then recreates it. See "mapOptimization" for implementation
+  savePCD: false                              # https://github.com/TixiaoShan/LIO-SAM/issues/3
+  savePCDDirectory: "/mylio_ws/src/pcd_maps/"        # in your home folder, starts and ends with "/". Warning: the code deletes "LOAM" folder then recreates it. See "mapOptimization" for implementation
 
   # Sensor Settings
   sensor: velodyne                            # lidar sensor type, 'velodyne' or 'ouster' or 'livox'
@@ -74,7 +82,7 @@ lio_sam:
   # Surrounding map
   surroundingkeyframeAddingDistThreshold: 1.0   # meters, regulate keyframe adding threshold
   surroundingkeyframeAddingAngleThreshold: 0.2  # radians, regulate keyframe adding threshold
-  surroundingKeyframeDensity: 2.0               # meters, downsample surrounding keyframe poses   
+  surroundingKeyframeDensity: 2.0               # meters, downsample surrounding keyframe poses
   surroundingKeyframeSearchRadius: 50.0         # meters, within n meters scan-to-map optimization (when loop closure disabled)
 
   # Loop closure
@@ -128,7 +136,7 @@ ekf_gps:
                 false, false, true,
                 true,  true,  true]
   imu0_differential: false
-  imu0_queue_size: 50 
+  imu0_queue_size: 50
   imu0_remove_gravitational_acceleration: true
   # -------------------------------------
   # Odometry (From Navsat):
